@@ -327,7 +327,9 @@ if __name__ == '__main__':
     处理参数:
         需要兼容Windows和macOS,所以判断写得比较多。
     """
+    print('-1')
     if len(sys.argv) > 1:
+        print('01')
         for num in range(1,len(sys.argv)):
             print("[?]{}".format(sys.argv[num]))
             if os.path.exists(sys.argv[num]):
@@ -336,17 +338,16 @@ if __name__ == '__main__':
                     if os.path.exists(apkPath):
                         main(apkPath)
     elif os.path.exists("apps"):
+        print('02')
         print("[+]Traversing APK files")
-        for (dirPath,dirNames,fileNames) in os.walk(os.path.abspath("apps" + os.curdir)):
-            if len(fileNames) > 0:
-                for apkFile in fileNames:
-                    if os.path.splitext(apkFile)[1] == '.apk':
-                        apkPath = "apps/" + apkFile
-                        try:
-                            main(apkPath)
-                        except:pass
-            else:
-                print("Pls put all APK files in the apps folder")
+
+        g = os.walk(r"./apps")  
+        for path,dir_list,file_list in g:  
+            for file_name in file_list:  
+                print(os.path.join(path, file_name))
+                try:
+                    main(os.path.join(path, file_name))
+                except:pass
 
     else:
         os.mkdir("apps")
